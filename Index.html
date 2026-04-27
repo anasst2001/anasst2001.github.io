@@ -1,1 +1,459 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anas Satia | Systèmes Électroniques & Full-Stack Developer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #001f3f;
+            --navy-light: #0a2d52;
+            --gold: #c9a84c;
+            --gold-light: #e8c97a;
+            --white: #fafafa;
+            --gray: #6b7280;
+            --light-bg: #f4f7fb;
+        }
 
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--white);
+            color: var(--navy);
+            overflow-x: hidden;
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 22px 8%;
+            background: rgba(250,250,250,0.92);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0,31,63,0.07);
+            transition: box-shadow 0.3s;
+        }
+        nav.scrolled { box-shadow: 0 4px 30px rgba(0,31,63,0.08); }
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-weight: 900; font-size: 1.4rem;
+            color: var(--navy); text-decoration: none;
+            letter-spacing: 1px;
+        }
+        .logo span { color: var(--gold); }
+        .nav-links a {
+            margin-left: 36px; text-decoration: none;
+            color: var(--navy); font-weight: 500; font-size: 0.88rem;
+            letter-spacing: 0.5px; text-transform: uppercase;
+            position: relative; transition: color 0.3s;
+        }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -4px; left: 0;
+            width: 0; height: 2px; background: var(--gold); transition: width 0.3s;
+        }
+        .nav-links a:hover { color: var(--gold); }
+        .nav-links a:hover::after { width: 100%; }
+
+        /* ── HERO ── */
+        .hero {
+            min-height: 100vh;
+            background:
+                linear-gradient(160deg, rgba(0,31,63,0.88) 0%, rgba(0,31,63,0.65) 100%),
+                url('IMG_20230305_003857_411.jpg') center/cover no-repeat;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: flex-start;
+            padding: 0 8%; position: relative; overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute; right: -100px; top: -100px;
+            width: 600px; height: 600px; border-radius: 50%;
+            background: radial-gradient(circle, rgba(201,168,76,0.15), transparent 70%);
+            pointer-events: none;
+        }
+        .hero-badge {
+            display: inline-block;
+            background: rgba(201,168,76,0.2);
+            border: 1px solid rgba(201,168,76,0.5);
+            color: var(--gold-light); font-size: 0.78rem;
+            font-weight: 600; letter-spacing: 3px; text-transform: uppercase;
+            padding: 8px 18px; border-radius: 50px; margin-bottom: 28px;
+            animation: fadeUp 0.8s ease both;
+        }
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 9vw, 6.5rem);
+            font-weight: 900; color: white; line-height: 1;
+            margin-bottom: 24px;
+            animation: fadeUp 0.8s 0.15s ease both;
+        }
+        .hero h1 span { color: var(--gold-light); display: block; }
+        .hero p {
+            font-size: 1.15rem; color: rgba(255,255,255,0.75);
+            max-width: 480px; font-weight: 300; line-height: 1.7;
+            margin-bottom: 44px;
+            animation: fadeUp 0.8s 0.3s ease both;
+        }
+        .hero-cta {
+            display: flex; gap: 14px; flex-wrap: wrap;
+            animation: fadeUp 0.8s 0.45s ease both;
+        }
+        .btn-primary {
+            padding: 14px 32px; border-radius: 50px;
+            background: var(--gold); color: var(--navy);
+            font-weight: 700; font-size: 0.9rem; text-decoration: none;
+            letter-spacing: 0.5px; transition: 0.3s;
+            box-shadow: 0 8px 24px rgba(201,168,76,0.35);
+        }
+        .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+        .btn-outline {
+            padding: 14px 32px; border-radius: 50px;
+            background: transparent; color: white;
+            font-weight: 600; font-size: 0.9rem; text-decoration: none;
+            border: 1.5px solid rgba(255,255,255,0.4);
+            letter-spacing: 0.5px; transition: 0.3s;
+        }
+        .btn-outline:hover { border-color: white; background: rgba(255,255,255,0.08); }
+        .scroll-hint {
+            position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+            color: rgba(255,255,255,0.45); font-size: 0.75rem; letter-spacing: 2px;
+            text-transform: uppercase; text-align: center;
+            animation: bounce 2s infinite;
+        }
+        .scroll-hint::before { content: '↓'; display: block; font-size: 1.2rem; margin-bottom: 6px; }
+
+        /* ── STATS BAR ── */
+        .stats-bar {
+            background: var(--navy);
+            display: flex; justify-content: center; flex-wrap: wrap;
+            gap: 0; padding: 0;
+        }
+        .stat-item {
+            flex: 1; min-width: 160px;
+            padding: 40px 30px; text-align: center;
+            border-right: 1px solid rgba(255,255,255,0.07);
+            transition: background 0.3s;
+        }
+        .stat-item:last-child { border-right: none; }
+        .stat-item:hover { background: var(--navy-light); }
+        .stat-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem; font-weight: 900;
+            color: var(--gold); line-height: 1;
+        }
+        .stat-label { color: rgba(255,255,255,0.5); font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase; margin-top: 6px; }
+
+        /* ── SECTIONS ── */
+        .section { padding: 100px 8%; }
+        .section-label {
+            font-size: 0.75rem; letter-spacing: 4px; text-transform: uppercase;
+            color: var(--gold); font-weight: 700; margin-bottom: 14px;
+        }
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 900;
+            color: var(--navy); line-height: 1.1; margin-bottom: 16px;
+        }
+        .section-sub { color: var(--gray); font-size: 1.05rem; max-width: 520px; line-height: 1.7; margin-bottom: 60px; }
+
+        /* ── EXPERTISE CARDS ── */
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 28px; }
+        .card {
+            background: var(--white);
+            border: 1px solid rgba(0,31,63,0.08);
+            border-radius: 24px; padding: 40px 36px;
+            transition: 0.3s; position: relative; overflow: hidden;
+        }
+        .card::before {
+            content: ''; position: absolute; top: 0; left: 0;
+            width: 4px; height: 100%; background: var(--gold);
+            transform: scaleY(0); transform-origin: bottom;
+            transition: transform 0.4s ease;
+        }
+        .card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(0,31,63,0.1); }
+        .card:hover::before { transform: scaleY(1); }
+        .card-icon { font-size: 2.2rem; margin-bottom: 20px; }
+        .card h3 { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--navy); margin-bottom: 14px; }
+        .card p { color: var(--gray); font-size: 0.95rem; line-height: 1.7; }
+
+        /* ── SKILLS TAGS ── */
+        .tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+        .tag {
+            padding: 8px 18px; border-radius: 50px;
+            background: var(--light-bg); color: var(--navy);
+            font-size: 0.83rem; font-weight: 600; letter-spacing: 0.3px;
+            border: 1px solid rgba(0,31,63,0.08); transition: 0.2s;
+        }
+        .tag:hover { background: var(--navy); color: var(--gold); }
+
+        /* ── BIO SECTION ── */
+        .bio-wrap {
+            display: grid; grid-template-columns: 1.4fr 1fr; gap: 80px; align-items: center;
+        }
+        .bio-text h2 { margin-bottom: 24px; }
+        .bio-text p { color: var(--gray); font-size: 1.05rem; line-height: 1.8; margin-bottom: 20px; }
+        .bio-img {
+            position: relative;
+        }
+        .bio-img img {
+            width: 100%; border-radius: 32px;
+            box-shadow: 0 30px 60px rgba(0,31,63,0.18);
+            display: block;
+        }
+        .bio-img::before {
+            content: '';
+            position: absolute; top: -16px; right: -16px;
+            width: 100%; height: 100%;
+            border: 3px solid var(--gold); border-radius: 32px;
+            z-index: -1;
+        }
+        .lang-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 30px; }
+        .lang-item {
+            background: var(--light-bg);
+            border-radius: 14px; padding: 16px 20px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .lang-name { font-weight: 700; font-size: 0.9rem; color: var(--navy); }
+        .lang-level {
+            font-size: 0.75rem; font-weight: 600; letter-spacing: 1px;
+            color: var(--gold); background: rgba(201,168,76,0.12);
+            padding: 4px 10px; border-radius: 50px;
+        }
+
+        /* ── CONTACT ── */
+        .contact-section {
+            background: var(--navy); border-radius: 40px;
+            margin: 0 5% 80px; padding: 90px 8%;
+            text-align: center;
+            box-shadow: 0 30px 70px rgba(0,31,63,0.25);
+            position: relative; overflow: hidden;
+        }
+        .contact-section::before {
+            content: '';
+            position: absolute; top: -150px; right: -150px;
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(201,168,76,0.12), transparent 70%);
+            pointer-events: none;
+        }
+        .contact-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 5vw, 3rem); font-weight: 900;
+            color: white; margin-bottom: 16px;
+        }
+        .contact-section p { color: rgba(255,255,255,0.65); font-size: 1.05rem; max-width: 520px; margin: 0 auto 50px; line-height: 1.7; }
+        .contact-btns { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
+        .contact-btn {
+            display: inline-flex; align-items: center; gap: 10px;
+            padding: 15px 30px; border-radius: 50px; font-weight: 700;
+            font-size: 0.9rem; text-decoration: none; transition: 0.3s;
+            letter-spacing: 0.3px;
+        }
+        .btn-email { background: white; color: var(--navy); }
+        .btn-email:hover { background: var(--gold-light); transform: translateY(-3px); }
+        .btn-whatsapp { background: #25D366; color: white; }
+        .btn-whatsapp:hover { background: #1da851; transform: translateY(-3px); box-shadow: 0 10px 25px rgba(37,211,102,0.3); }
+        .btn-linkedin { background: #0077b5; color: white; }
+        .btn-linkedin:hover { background: #005f92; transform: translateY(-3px); box-shadow: 0 10px 25px rgba(0,119,181,0.3); }
+
+        /* ── FOOTER ── */
+        footer {
+            text-align: center; padding: 40px 8%;
+            border-top: 1px solid rgba(0,31,63,0.07);
+        }
+        footer .footer-logo {
+            font-family: 'Playfair Display', serif;
+            font-weight: 900; font-size: 1.3rem; color: var(--navy);
+            margin-bottom: 8px;
+        }
+        footer .footer-logo span { color: var(--gold); }
+        footer p { color: var(--gray); font-size: 0.85rem; }
+
+        /* ── ANIMATIONS ── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(28px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-8px); }
+        }
+        .reveal {
+            opacity: 0; transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 900px) {
+            .bio-wrap { grid-template-columns: 1fr; gap: 50px; }
+            .bio-img { max-width: 420px; margin: 0 auto; }
+        }
+        @media (max-width: 640px) {
+            .nav-links { display: none; }
+            .hero { padding: 0 6%; }
+            .section { padding: 70px 6%; }
+            .stats-bar { flex-direction: row; }
+            .stat-item { padding: 28px 16px; }
+            .stat-num { font-size: 1.8rem; }
+            .contact-section { margin: 0 0 60px; border-radius: 0; }
+            .lang-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAV -->
+    <nav id="navbar">
+        <a href="#" class="logo">ANAS<span>.</span>SATIA</a>
+        <div class="nav-links">
+            <a href="#expertise">Expertise</a>
+            <a href="#about">À propos</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="hero">
+        <div class="hero-badge">Disponible pour collaboration</div>
+        <h1>ANAS<span>SATIA</span></h1>
+        <p>Expert en Systèmes Électroniques Numériques & Développeur Full-Stack basé au Maroc, connectant les opportunités locales au marché international.</p>
+        <div class="hero-cta">
+            <a href="#contact" class="btn-primary">Me contacter</a>
+            <a href="#expertise" class="btn-outline">Voir mon parcours</a>
+        </div>
+        <div class="scroll-hint">Défiler</div>
+    </header>
+
+    <!-- STATS -->
+    <div class="stats-bar">
+        <div class="stat-item">
+            <div class="stat-num">2019</div>
+            <div class="stat-label">Diplômé</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-num">4+</div>
+            <div class="stat-label">Langues maîtrisées</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-num">3</div>
+            <div class="stat-label">Domaines d'expertise</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-num">∞</div>
+            <div class="stat-label">Ambition</div>
+        </div>
+    </div>
+
+    <!-- EXPERTISE -->
+    <section class="section" id="expertise">
+        <div class="reveal">
+            <div class="section-label">Parcours & Compétences</div>
+            <h2 class="section-title">Ce que je fais</h2>
+            <p class="section-sub">Une combinaison unique de compétences techniques, financières et linguistiques pour des solutions complètes.</p>
+        </div>
+        <div class="cards-grid">
+            <div class="card reveal">
+                <div class="card-icon">🎓</div>
+                <h3>Formation Académique</h3>
+                <p><strong>Baccalauréat Professionnel (2019)</strong><br>
+                Systèmes Électroniques Numériques<br>
+                Guelmim, Maroc<br><br>
+                <em>Mention : Assez Bien — 12.43/20</em></p>
+            </div>
+            <div class="card reveal">
+                <div class="card-icon">⚡</div>
+                <h3>Expertise Technique</h3>
+                <p>Maintenance et déploiement de solutions électroniques numériques, combiné au développement web moderne.</p>
+                <div class="tags">
+                    <span class="tag">PHP</span>
+                    <span class="tag">JavaScript</span>
+                    <span class="tag">C++</span>
+                    <span class="tag">HTML/CSS</span>
+                </div>
+            </div>
+            <div class="card reveal">
+                <div class="card-icon">📊</div>
+                <h3>Finance & Business</h3>
+                <p>Analyse financière, business planning et développement de stratégies pour connecter les marchés locaux et internationaux.</p>
+                <div class="tags">
+                    <span class="tag">Analyse Financière</span>
+                    <span class="tag">Business Planning</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BIO -->
+    <section class="section" id="about" style="background: var(--light-bg);">
+        <div class="bio-wrap">
+            <div class="bio-text reveal">
+                <div class="section-label">À propos de moi</div>
+                <h2 class="section-title">Une Vision Globale</h2>
+                <p>Diplômé en systèmes électroniques numériques en 2019 à Guelmim, j'ai su allier ma passion pour l'électronique à une expertise en finance et développement informatique.</p>
+                <p>Basé au Maroc, je développe des solutions innovantes pour connecter les opportunités locales au marché international, notamment vers le Canada — à travers ma plateforme <strong>Competence Opportunities</strong>.</p>
+                <div class="lang-grid">
+                    <div class="lang-item">
+                        <span class="lang-name">Anglais</span>
+                        <span class="lang-level">C1</span>
+                    </div>
+                    <div class="lang-item">
+                        <span class="lang-name">Espagnol</span>
+                        <span class="lang-level">B1</span>
+                    </div>
+                    <div class="lang-item">
+                        <span class="lang-name">Français</span>
+                        <span class="lang-level">B2</span>
+                    </div>
+                    <div class="lang-item">
+                        <span class="lang-name">Allemand</span>
+                        <span class="lang-level">A2</span>
+                    </div>
+                </div>
+            </div>
+            <div class="bio-img reveal">
+                <img src="IMG_20211126_131202_413.webp" alt="Portrait Anas Satia">
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact-section" id="contact">
+        <h2>Prêt à collaborer ?</h2>
+        <p>Que ce soit pour un projet de développement web, une analyse financière pointue ou le lancement de Competence Opportunities — je suis à votre écoute.</p>
+        <div class="contact-btns">
+            <a href="mailto: anassatia2001@gmail.com" class="contact-btn btn-email">
+                ✉️ M'envoyer un Email
+            </a>
+            <a href="https://wa.me/212636696347" target="_blank" class="contact-btn btn-whatsapp">
+                📱 WhatsApp Direct
+            </a>
+            <a href="https://linkedin.com/in/anassatia" target="_blank" class="contact-btn btn-linkedin">
+                💼 Profil LinkedIn
+            </a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-logo">ANAS<span>.</span>SATIA</div>
+        <p>© 2026 Platform Competence Opportunities &nbsp;·&nbsp; Guelmim — Canada</p>
+    </footer>
+
+    <script>
+        // Scroll shadow on nav
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 20);
+        });
+
+        // Reveal on scroll
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, i) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => entry.target.classList.add('visible'), i * 
